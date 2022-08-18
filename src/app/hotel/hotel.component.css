@@ -1,0 +1,35 @@
+img {
+    height: 20vh;
+}
+
+.bg {
+    background-color: rgb(239, 225, 225);
+}
+
+/* .alignright {
+    display: inline-block;
+    
+} */
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+mat-form-field {
+    margin-right: 12px;
+}
+
+::ng-deep .cdk-overlay-container {
+    z-index: 1200 !important;
+}
+
+h3 {
+    font-size: 2em;
+    font-weight: bold;
+}

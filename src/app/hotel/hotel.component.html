@@ -1,0 +1,153 @@
+<div class="d-flex ml-3" style="margin-left: 3vw;">
+<div class="mt-5">
+    <a [routerLink]="['/admin']" class="btn btn-sm btn-primary">Room CRUD</a>
+</div>
+<div class="container">
+    <div class="nav justify-content-end">
+        <nav class="navbar navbar-light bg-light">
+            <form class="container-fluid">
+                <button class="btn btn-danger me-4 p-2" [hidden]='isprinted' type="button"
+                    (click)="printInvoice()">Print Invoice</button>
+                <button class="btn btn-danger me-4 p-2" [hidden]='isdiscard' type="button"
+                    (click)="Discardbtn()">Discard
+                    Booking</button>
+                <button [hidden]="isRegistered" class="btn btn-success p-2" type="button" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">Register Customer</button>
+                    <div class="ml-2 d-flex" *ngIf="isRegistered">
+                        <p style="font-weight:500;font-size:large;" class="mx-auto my-auto ml-3">HI, {{customerName}}</p>
+                        <button class="btn btn-sm btn-primary" (click)="logout()">LogOut</button>
+                    </div>
+                <!-- Button trigger modal -->
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" color="accent" id="staticBackdropLabel">Customer Detail</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form [formGroup]="profileForm" (submit)="onSubmit()">
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Name:</mat-label>
+                                        <input matInput placeholder="Enter Full Name" formControlName="name" required>
+                                        <!-- <mat-error *ngIf="name.invalid">Required</mat-error> -->
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Address:</mat-label>
+                                        <input matInput placeholder="Enter Your Address" formControlName="address"
+                                            required>
+                                        <!-- <mat-error *ngIf="age.invalid">Required</mat-error> -->
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Phone Number:</mat-label>
+                                        <span matPrefix>+977 &nbsp;</span>
+                                        <input type="tel" matInput placeholder="9876543210"
+                                            formControlName="phoneNumber">
+                                    </mat-form-field>
+                                    <mat-form-field class="example-half-width" appearance="fill">
+                                        <mat-label>Age:</mat-label>
+                                        <input matInput placeholder="Enter Your Age" formControlName="age" required>
+                                        <!-- <mat-error *ngIf="age.invalid">Required</mat-error> -->
+                                    </mat-form-field>
+                                    <mat-form-field class="example-half-width" appearance="fill">
+                                        <mat-label>Gender</mat-label>
+                                        <mat-select formControlName="gender">
+                                            <mat-option value="male">Male</mat-option>
+                                            <mat-option value="female">Female</mat-option>
+                                            <mat-option value="other">Other</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <h5 color="accent">Trip Details</h5>
+
+                                    <mat-form-field class="example-half-width">
+                                        <input matInput [matDatepicker]="picker1" placeholder="CheckIn date"
+                                            [min]="todayDate" type="text" formControlName="checkedIndate">
+                                        <mat-hint>MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1 color="primary"></mat-datepicker>
+                                    </mat-form-field>
+                                    <mat-form-field class="example-half-width">
+                                        <input matInput [matDatepicker]="picker"
+                                            [min]="profileForm.controls['checkedIndate'].value"
+                                            placeholder="CheckOut date" formControlName="checkedOutdate">
+                                        <mat-hint>MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker color="primary"></mat-datepicker>
+                                    </mat-form-field>
+                                    <button type="submit" class="btn btn-primary"
+                                        data-bs-dismiss="modal">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </nav>
+    </div>
+    <div class="row bg">
+        <div class="row mt-5">
+            <div class="row">
+                <h3 color="accent" class="text-primary text-center">Deluxe Room</h3>
+                <div class="d-flex justify-content-center" *ngIf="ishidden">
+                    <button class="btn btn-success" (click)="btnClick()">Done Booking</button>
+                </div>
+            </div>
+            <div class="row ms-2 me-2 mt-4 col-lg-3" *ngFor="let item of rooms; let i = index" style="width: 20vw;"
+                [hidden]="!getBool(item,'Deluxe')">
+                <img src="{{imgUrl}}Resources/Images/{{item.imagePath}}" class="img-thumbnail" alt="...">
+                <div class="text-center">
+                    <p class="fw-bold">{{item.roomNo}}</p>
+                    <label for="">Deluxe
+                    </label>
+                    <p class="mb-2">Rating: 4.5/5</p>
+                    <p>Price:{{item.price}}</p>
+                    <button [disabled]="istrue" (click)="RoomBook(item)" class="btn btn-primary m-3">BOOK</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <h3 color="accent" class="text-primary text-center">AC Room</h3>
+            <!-- <div class="d-flex justify-content-center" *ngIf="ishidden">
+                <button class="btn btn-success p-2" (click)="btnClick()">Done Booking</button>
+            </div> -->
+            <div class="row ms-2 me-2 mt-4 col-lg-3" *ngFor="let item of rooms; let i = index" style="width: 20vw;"
+                [hidden]="!getBool(item,'Ac')">
+                <img src="{{imgUrl}}Resources/Images/{{item.imagePath}}" class="img-thumbnail" alt="">
+                <div class="text-center">
+                    <label for="">AC ROOM</label>
+                    <p class="mb-2">Rating: 4/5</p>
+                    <p>Price:{{item.price}}</p>
+                    <button [disabled]="istrue" (click)="RoomBook(item)" class="btn btn-primary m-3">BOOK</button>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <h3 color="accent" class="text-primary text-center">Non-AC Room</h3>
+
+                <div class="row ms-2 me-2 mt-4 col-lg-3" *ngFor="let item of rooms; let i = index" style="width: 20vw;"
+                    [hidden]="!getBool(item,'NonAc')">
+                    <img src="{{imgUrl}}Resources/Images/{{item.imagePath}}" class="img-thumbnail" alt="...">
+                    <div class="text-center">
+                        <p class="fw-bold">{{item.roomNo}}</p>
+                        <label for="">Non-AC ROOM</label>
+                        <p class="mb-2">Rating: 3.5/5</p>
+                        <p>Price:{{item.price}}</p>
+                        <button at-raised-button color="primary" [disabled]="istrue" (click)="RoomBook(item)"
+                            class="btn btn-primary m-3">BOOK</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>

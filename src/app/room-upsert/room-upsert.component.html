@@ -1,0 +1,67 @@
+<div class="ml-5 text-center mx-auto" style="margin-left: 5vw;">
+    <a [routerLink]="['/']" class="btn btn-sm btn-success mt-5">Back to Booking</a>
+</div>
+<div class="mx-auto my-auto mt-5 bg-light p-5" style="width: 40vw;">
+    <h5 class="text-center" style="font-weight: 500; font-size:1.5rem;">New Room</h5>
+    <form [formGroup]="upsertForm" (submit)="upsertRoom()">
+        <div class="mb-3">
+          <label for="roomNo" class="form-label">Room Number</label>
+          <input type="email" class="form-control" id="roomNo" aria-describedby="roomHelp" formControlName="roomNo">
+          <div id="roomHelp" class="form-text">Enter Room Number</div>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="text" class="form-control" id="price" aria-describedby="priceHelp" formControlName="price"> 
+            <div id="priceHelp" class="form-text">Enter Room Price</div>
+          </div>
+        <div class="mb-3">
+            <label for="typeofroom" class="form-label">Room Type</label>
+            <input type="text" class="form-control" id="typeofroom" aria-describedby="roomTypes" formControlName="typeOfRoom">
+            <div id="roomTypes" class="form-text">Enter Room Type.</div>
+            <div>
+                <p class="mb-0 pb-0">Room Type: Deluxe</p>
+                <p class="mt-0 mb-0 pt-0 pb-0">Room Type: Ac</p>
+                <p class="mt-0 mb-0 pt-0 pb-0">Room Type: NonAc</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-md-3">
+              <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+              <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+            </div>
+            <div class="col-md-4">
+              <span class="upload" *ngIf="progress > 0">
+                {{progress}}% {{message}}
+              </span>
+              <!-- <span class="upload" *ngIf="message">
+                {{message}}
+              </span> -->
+            </div>
+          </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+
+<div class="mx-auto my-auto mt-5 bg-light p-5 mt-5" style="width: 40vw;">
+    <h5 class="text-center" style="font-weight: 500; font-size:1.5rem;">Delete Room</h5>
+    <form [formGroup]="deleteForm" (submit)="deleteRoom()">
+        <div class="mb-3">
+          <label for="roomNo" class="form-label">Delete Room</label>
+          <input type="email" class="form-control" id="roomNo" aria-describedby="roomHelp" formControlName="roomNo">
+          <div id="roomHelp" class="form-text">Enter Room Number</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+
+<div class="mx-auto my-auto mt-5 bg-light p-5 mt-5" style="width: 40vw;">
+    <h5 class="text-center" style="font-weight: 500; font-size:1.5rem;">Update Room</h5>
+    <form [formGroup]="updateForm" (submit)="updateRoom()">
+        <div class="mb-3">
+          <label for="roomNo" class="form-label">Update Room</label>
+          <input type="email" class="form-control" id="roomNo" aria-describedby="roomHelp" formControlName="roomNo">
+          <div id="roomHelp" class="form-text">Enter Room Number</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
